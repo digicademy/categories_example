@@ -12,6 +12,14 @@ Extension demonstrating the use of sys_category based on extbase/fluid in the TY
 * Possibility to exclude certain categories from the tree
 * Set target page for category links
 
+## Screenshots
+
+![Category tree in frontend](Resources/Public/Screenshots/example_frontend.png "Example category tree")
+
+![Category records and plugin](Resources/Public/Screenshots/example_records.png "Example records")
+
+![Plugin form](Resources/Public/Screenshots/example_plugin.png "Example plugin")
+
 ## Requirements
 
 TYPO3 6.1.x
