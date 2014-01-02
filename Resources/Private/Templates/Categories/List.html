@@ -1,0 +1,44 @@
+{namespace adwlm=ADWLM\CategoriesExample\ViewHelpers}
+
+<f:if condition="{selectedCategories}">
+	<f:render partial="SelectedCategories" arguments="{_all}" />
+</f:if>
+
+<nav class="contentnavigation filter">
+	<ul>
+		<f:for each="{categoryTree}" as="parentCategories" key="label" iteration="iterator">
+			<li>
+				<a class="label" id="s{iterator.cycle}" href="#l{iterator.cycle}">{label}</a>
+				<ul class="filteroptions" id="l{iterator.cycle}">
+
+				<f:for each="{parentCategories}" as="childCategory">
+
+					<f:if condition="{adwlm:InArray(needle : childCategory.uid, haystack : selectedCategoriesArray)}">
+						<f:then>
+					<li class="selected">
+						</f:then>
+						<f:else>
+					<li>
+						</f:else>
+					</f:if>
+					<f:if condition="{selectedCategories}">
+						<f:then>
+							<f:link.action action="select" arguments="{category : childCategory.uid, selectedCategories : selectedCategories}" pageUid="{settings.targetPid}">
+								{childCategory.title}
+							</f:link.action>
+						</f:then>
+						<f:else>
+							<f:link.action action="select" arguments="{category : childCategory.uid}" pageUid="{settings.targetPid}">
+								{childCategory.title}
+							</f:link.action>
+						</f:else>
+					</f:if>
+					</li>
+
+				</f:for>
+
+				</ul>
+			</li>
+		</f:for>
+	</ul>
+</nav>

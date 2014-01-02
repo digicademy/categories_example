@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>database</type>
+		<description>Language labels for database tables/fields belonging to extension 'categories_example'</description>
+	</meta>
+	<data type="array">
+
+		<languageKey index="default" type="array">
+
+			<label index="categoryPlugin.parentCategories">Selected parent categories</label>
+			<label index="categoryPlugin.categories2skip">Categories to exclude</label>
+			<label index="categoryPlugin.targetPid">Target page for links</label>
+
+		</languageKey>
+
+		<languageKey index="de" type="array">
+
+			<label index="categoryPlugin.parentCategories">Ausgewählte Elternkategorien</label>
+			<label index="categoryPlugin.categories2skip">Folgende Kategorien ausschließen</label>
+			<label index="categoryPlugin.targetPid">Zielseite für Kategorienlinks</label>
+
+		</languageKey>
+
+	</data>
+</T3locallang>

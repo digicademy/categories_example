@@ -1,0 +1,22 @@
+config.tx_extbase {
+	objects {
+		TYPO3\CMS\Extbase\Domain\Model\Category {
+			className = ADWLM\CategoriesExample\Domain\Model\Categories
+		}
+		TYPO3\CMS\Extbase\Domain\Repository\CategoryRepository {
+			className = ADWLM\CategoriesExample\Domain\Repository\CategoriesRepository
+		}
+	}
+}
+
+plugin.tx_categoriesexample {
+	persistence {
+		classes {
+			ADWLM\CategoriesExample\Domain\Model\Categories {
+				mapping {
+					tableName = sys_category
+				}
+			}
+		}
+	}
+}

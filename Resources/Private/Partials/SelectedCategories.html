@@ -1,0 +1,13 @@
+<p>
+	<strong><f:translate key="categories.selectedCategories.label" />: </strong>
+	<f:for each="{selectedCategoriesArray}" as="selectedCategory" iteration="iterator">
+		<f:if condition="{iterator.isLast}">
+			<f:then>
+				{selectedCategory.title}
+			</f:then>
+			<f:else>
+				{selectedCategory.title},
+			</f:else>
+		</f:if>
+	</f:for>
+</p>
