@@ -1,7 +1,7 @@
 Categories Example
 ==================
 
-Extension demonstrating the use of sys_category based on extbase/fluid in the TYPO3 frontend.
+Extension demonstrating the use of sys_category based on Extbase/Fluid in the TYPO3 frontend.
 
 ## Features:
 
@@ -27,7 +27,7 @@ TYPO3 6.1.x
 ## Setup
 
 1. Install the extension with the extension manager
-2. Include the TypoScript setup of this extension in your template
+2. Include the TypoScript setup of this extension in your TypoScript template
 3. Create some categories
 4. Create a plugin on a page, select the parent categories from which the tree should be generated. Don't forget to set the storage pid of the category records in the plugin
 
