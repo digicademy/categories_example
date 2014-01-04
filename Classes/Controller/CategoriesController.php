@@ -47,7 +47,7 @@ class CategoriesController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContr
 	 */
 	public function listAction() {
 
-		$parentCategoryUids = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $this->settings['parentCategories']);
+		$levelCategoryUids = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $this->settings['parentCategories']);
 
 		if ($this->settings['categories2skip']) {
 			$categories2skip = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $this->settings['categories2skip']);
@@ -55,26 +55,46 @@ class CategoriesController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContr
 
 		$categoryTree = array();
 
-		foreach ($parentCategoryUids as $parentCategoryUid) {
-			$parentCategory = $this->categoriesRepository->findByUid($parentCategoryUid);
-			$categoryTree[$parentCategory->getTitle()] = $this->categoriesRepository->findByParent($parentCategoryUid, $categories2skip)->toArray();
+			// builds the category tree as two dimensional array - the keys represent the level of recursion, the values are
+			// arrays of child categories per level bound together by the uid of their parent
+		for ($i = 0; $i <= $this->settings['recursive']; $i++) {
+			if ($i === 0) {
+				foreach ($levelCategoryUids as $currentCategoryUid) {
+					$parent = $this->categoriesRepository->findByUid($currentCategoryUid);
+					$categoryTree[$i][] = $parent;
+				}
+			} else {
+				$newLevelCategoryUids = array();
+				foreach ($levelCategoryUids as $currentCategoryUid) {
+					$parent = $this->categoriesRepository->findByUid($currentCategoryUid);
+					$children = $this->categoriesRepository->findByParent($currentCategoryUid, $categories2skip);
+					if ($children->count() > 0) {
+						$categoryTree[$i][$parent->getUid()] = $children;
+						foreach ($children as $child) {
+							$newLevelCategoryUids[] = $child->getUid();
+						}
+					}
+				}
+				$levelCategoryUids = $newLevelCategoryUids;
+			}
 		}
 
 		$this->view->assign('categoryTree', $categoryTree);
 
+			// assign the selected categories, as CSV list for links and as array holding selected category objects for easy property access
 		if ($this->request->hasArgument('selectedCategories')) {
-			$selectedCategories = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $this->request->getArgument('selectedCategories'));
+			$selectedCategories = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $this->request->getArgument('selectedCategories'), TRUE);
 			foreach ($selectedCategories as $selectedCategory) {
 				$selectedCategoriesArray[] = $this->categoriesRepository->findByUid($selectedCategory);
 			}
 			$this->view->assign('selectedCategoriesArray', $selectedCategoriesArray);
-			$this->view->assign('selectedCategories', $this->request->getArgument('selectedCategories'));
+			$this->view->assign('selectedCategories', implode(',', $selectedCategories));
 		}
 
-		$this->view->assign('arguments', $this->request->getArguments());
-
+			// set the target pid and reassign the modified settings
 		if (!$this->settings['targetPid']) $this->settings['targetPid'] = $GLOBALS['TSFE']->id;
 		$this->view->assign('settings', $this->settings);
+
 	}
 
 
@@ -93,32 +113,25 @@ class CategoriesController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContr
 			// clean arguments for redirect
 		unset($arguments['category']);
 
-			// test if there already are selected categories - then we have to add/substract the current category
-		if (array_key_exists('selectedCategories', $arguments)) {
+		$selectedCategories = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $arguments['selectedCategories'], TRUE);
 
-			$selectedCategories = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $arguments['selectedCategories']);
+			// test if current category was already selected
+		$key = array_search($category->getUid(), $selectedCategories);
 
-				// test if current category was already selected
-			$key = array_search($category->getUid(), $selectedCategories);
-
-				// select action: no key exists, add clicked category to selectedCategories
-			if ($key === FALSE) {
-				$selectedCategories[] = $category->getUid();
-				// unselect action: key/category already exists in selectedCategories
-			} else {
-				unset($selectedCategories[$key]);
-			}
-				// reconstitute the modified argument
-			if (count($selectedCategories) > 0) {
-				$arguments['selectedCategories'] = implode(',', $selectedCategories);
-				// happens when all categories have been unselected
-			} else {
-				unset($arguments['selectedCategories']);
-			}
-
-			// case when a category has been clicked the first time
+			// select action: no key exists, add clicked category to selectedCategories
+		if ($key === FALSE) {
+			$selectedCategories[] = $category->getUid();
+			// unselect action: key/category already exists in selectedCategories
 		} else {
-			$arguments['selectedCategories'] = $category->getUid();
+			unset($selectedCategories[$key]);
+		}
+
+			// reconstitute the modified argument
+		if (count($selectedCategories) > 0) {
+			$arguments['selectedCategories'] = implode(',', $selectedCategories);
+			// happens when all categories have been unselected
+		} else {
+			unset($arguments['selectedCategories']);
 		}
 
 			// redirect to list action which will take over the display of the full list with the selected categories

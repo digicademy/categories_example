@@ -26,16 +26,16 @@ namespace ADWLM\CategoriesExample\ViewHelpers;
 ***************************************************************/
 
 
-class InArrayViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class ArrayKeyExistsViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 	/**
-	 * @param mixed $needle
-	 * @param array $haystack
+	 * @param mixed $key
+	 * @param array $array
 	 * 
 	 * @return boolean
 	 */
-	public function render($needle, $haystack = array()) {
-		return in_array($needle, $haystack);
+	public function render($key, $array = array()) {
+		return array_key_exists($key, $array);
 	}
 }
 ?>
