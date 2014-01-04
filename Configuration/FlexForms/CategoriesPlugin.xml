@@ -79,6 +79,10 @@
 										<numIndex index="0">LLL:EXT:categories_example/Resources/Private/Language/locallang_db.xml:categoryPlugin.recursive.I.4</numIndex>
 										<numIndex index="1">4</numIndex>
 									</numIndex>
+									<numIndex index="5" type="array">
+										<numIndex index="0">LLL:EXT:categories_example/Resources/Private/Language/locallang_db.xml:categoryPlugin.recursive.I.5</numIndex>
+										<numIndex index="1">250</numIndex>
+									</numIndex>
 								</items>
 							</config>
 						</TCEforms>

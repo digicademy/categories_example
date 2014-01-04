@@ -1,0 +1,30 @@
+{namespace adwlm=ADWLM\CategoriesExample\ViewHelpers}
+
+<f:if condition="{currentLevel} < {stopRecursionOnLevel}">
+	<f:alias map="{nextLevel : '{adwlm:Increment(i : currentLevel)}'}">
+		<f:if condition="{adwlm:ArrayKeyExists(key : currentCategory.uid, array : categoryTree, level : nextLevel)}">
+
+			<ul class="level{nextLevel}">
+				<f:for each="{adwlm:ArrayValue(key : currentCategory.uid, array : categoryTree, level : nextLevel)}" as="childCategory">
+
+					<li class="{f:if(condition:'{adwlm:InArrayExplode(needle : childCategory.uid, haystack : selectedCategories)}', then : 'selected', else : 'no')}">
+
+						<f:link.action action="select" arguments="{category : childCategory.uid, selectedCategories : selectedCategories}" pageUid="{settings.targetPid}">
+							{childCategory.title}
+						</f:link.action>
+
+						<f:render partial="ChildCategoryRecursion" arguments="{
+							categoryTree : categoryTree,
+							selectedCategories : selectedCategories,
+							currentCategory : childCategory,
+							currentLevel : nextLevel,
+							stopRecursionOnLevel : stopRecursionOnLevel}"
+						/>
+
+					</li>
+				</f:for>
+			</ul>
+		</f:if>
+
+	</f:alias>
+</f:if>

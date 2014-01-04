@@ -1,14 +1,13 @@
 Categories Example
 ==================
 
-Extension demonstrating the use of sys_category based on Extbase/Fluid in the TYPO3 frontend.
+Extension demonstrating how to render a category tree based on sys_category and Extbase/Fluid in the TYPO3 frontend.
 
 ## Features:
 
-* Renders categories as a tree (unordered list)
+* Renders categories as recursive tree (Fluid based)
 * Select/unselect categories
-* jQuery slideout example for the category tree (in Resources/Public)
-* Category plugin to select from which (parent) categories the tree should be generated
+* Select from which parent categories the tree should be generated
 * Possibility to exclude certain categories from the tree
 * Set target page for category links
 

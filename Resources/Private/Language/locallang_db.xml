@@ -17,6 +17,7 @@
 			<label index="categoryPlugin.recursive.I.2">3 Levels</label>
 			<label index="categoryPlugin.recursive.I.3">4 Levels</label>
 			<label index="categoryPlugin.recursive.I.4">5 Levels</label>
+			<label index="categoryPlugin.recursive.I.5">Infinite (250 Levels)</label>
 
 		</languageKey>
 
@@ -31,6 +32,7 @@
 			<label index="categoryPlugin.recursive.I.2">3 Ebenen</label>
 			<label index="categoryPlugin.recursive.I.3">4 Ebenen</label>
 			<label index="categoryPlugin.recursive.I.4">5 Ebenen</label>
+			<label index="categoryPlugin.recursive.I.5">Unendlich (250 Ebenen)</label>
 
 		</languageKey>
 

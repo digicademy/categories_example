@@ -26,17 +26,16 @@ namespace ADWLM\CategoriesExample\ViewHelpers;
 ***************************************************************/
 
 
-class ArrayValueViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class IncrementViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 	/**
-	 * @param mixed $key
-	 * @param array $array
-	 * @param integer $level
+	 * @param integer $i
 	 * 
-	 * @return boolean
+	 * @return integer
 	 */
-	public function render($key, $array, $level) {
-		return $array[$level][$key];
+	public function render($i) {
+		$i++;
+		return $i;
 	}
 }
 ?>

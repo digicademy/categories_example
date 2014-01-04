@@ -31,11 +31,13 @@ class ArrayKeyExistsViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstract
 	/**
 	 * @param mixed $key
 	 * @param array $array
+	 * @param integer $level
 	 * 
 	 * @return boolean
 	 */
-	public function render($key, $array = array()) {
-		return array_key_exists($key, $array);
+	public function render($key, $array, $level) {
+		return array_key_exists($key, $array[$level]);
 	}
+
 }
 ?>

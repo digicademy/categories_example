@@ -6,81 +6,25 @@
 
 <nav class="contentnavigation filter">
 
-	<!-- level 0 -->
-	<ul>
-		<f:for each="{categoryTree.0}" as="level0Category" iteration="iterator0">
+	<ul class="level0">
+		<f:for each="{categoryTree.0}" as="currentCategory">
 
-			<li class="{f:if(condition:'{adwlm:InArrayExplode(needle : level0Category.uid, haystack : selectedCategories)}', then : 'selected', else : 'no')}">
+			<li class="{f:if(condition:'{adwlm:InArrayExplode(needle : currentCategory.uid, haystack : selectedCategories)}', then : 'selected', else : 'no')}">
 
-				<f:link.action action="select" arguments="{category : level0Category.uid, selectedCategories : selectedCategories}" pageUid="{settings.targetPid}">
-					{level0Category.title}
+				<f:link.action action="select" arguments="{category : currentCategory.uid, selectedCategories : selectedCategories}" pageUid="{settings.targetPid}">
+					{currentCategory.title}
 				</f:link.action>
 
-				<!-- level 1 -->
-				<f:if condition="{adwlm:ArrayKeyExists(key : level0Category.uid, array : categoryTree.1)}">
-					<ul>
-						<f:for each="{adwlm:ArrayValue(key : level0Category.uid, array : categoryTree.1)}" as="level1Category" iteration="iterator1">
-
-							<li class="{f:if(condition:'{adwlm:InArrayExplode(needle : level1Category.uid, haystack : selectedCategories)}', then : 'selected', else : 'no')}">
-
-								<f:link.action action="select" arguments="{category : level1Category.uid, selectedCategories : selectedCategories}" pageUid="{settings.targetPid}" class="label">
-									{level1Category.title}
-								</f:link.action>
-
-								<!-- level 2 -->
-								<f:if condition="{adwlm:ArrayKeyExists(key : level1Category.uid, array : categoryTree.2)}">
-									<ul>
-										<f:for each="{adwlm:ArrayValue(key : level1Category.uid, array : categoryTree.2)}" as="level2Category" iteration="iterator2">
-
-											<li class="{f:if(condition:'{adwlm:InArrayExplode(needle : level2Category.uid, haystack : selectedCategories)}', then : 'selected', else : 'no')}">
-
-												<f:link.action action="select" arguments="{category : level2Category.uid, selectedCategories : selectedCategories}" pageUid="{settings.targetPid}" class="label">
-													{level2Category.title}
-												</f:link.action>
-
-												<!-- level 3 -->
-												<f:if condition="{adwlm:ArrayKeyExists(key : level2Category.uid, array : categoryTree.3)}">
-													<ul>
-														<f:for each="{adwlm:ArrayValue(key : level2Category.uid, array : categoryTree.3)}" as="level3Category" iteration="iterator3">
-
-															<li class="{f:if(condition:'{adwlm:InArrayExplode(needle : level3Category.uid, haystack : selectedCategories)}', then : 'selected', else : 'no')}">
-
-																<f:link.action action="select" arguments="{category : level3Category.uid, selectedCategories : selectedCategories}" pageUid="{settings.targetPid}" class="label">
-																	{level3Category.title}
-																</f:link.action>
-
-																<!-- level 4 -->
-																<f:if condition="{adwlm:ArrayKeyExists(key : level3Category.uid, array : categoryTree.4)}">
-																	<ul>
-																		<f:for each="{adwlm:ArrayValue(key : level3Category.uid, array : categoryTree.4)}" as="level4Category" iteration="iterator4">
-
-																			<li class="{f:if(condition:'{adwlm:InArrayExplode(needle : level4Category.uid, haystack : selectedCategories)}', then : 'selected', else : 'no')}">
-
-																				<f:link.action action="select" arguments="{category : level4Category.uid, selectedCategories : selectedCategories}" pageUid="{settings.targetPid}" class="label">
-																					{level4Category.title}
-																				</f:link.action>
-
-																			</li>
-																		</f:for>
-																	</ul>
-																</f:if>
-
-															</li>
-														</f:for>
-													</ul>
-												</f:if>
-
-											</li>
-										</f:for>
-									</ul>
-								</f:if>
-
-							</li>
-						</f:for>
-					</ul>
-				</f:if>
+				<f:render partial="ChildCategoryRecursion" arguments="{
+					categoryTree : categoryTree,
+					selectedCategories : selectedCategories,
+					currentCategory : currentCategory,
+					currentLevel : 0,
+					stopRecursionOnLevel : settings.recursive}"
+				/>
 
 			</li>
 		</f:for>
 	</ul>
+
 </nav>
